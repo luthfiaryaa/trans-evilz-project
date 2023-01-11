@@ -92,8 +92,10 @@ pipeline {
         
         cd java
 	
+	sudo docker stop java
+	
+	sudo docker rm java
 
-        
         sudo docker build -t irvanmr/java:evilcorps-v1 .
         
         """
