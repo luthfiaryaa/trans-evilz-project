@@ -74,9 +74,9 @@ pipeline {
 	    stage('Build Code'){
 		    steps{
 			    
-		    sh""
+		    sh ""
 		    
-		    cd java/target
+		    cd java
 		    
 		    mvn clean install
 		    
