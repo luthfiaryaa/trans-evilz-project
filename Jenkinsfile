@@ -119,7 +119,7 @@ pipeline {
 
       
 	
-	sudo docker run --name java -dp 87:80 irvanmr/java:evilcorps-v1
+	sudo docker run --name java-v1 -dp 87:80 irvanmr/java:evilcorps-v1
          
         """
 	}
