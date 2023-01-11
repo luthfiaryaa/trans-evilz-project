@@ -74,13 +74,13 @@ pipeline {
 	    stage('Build Code'){
 		    steps{
 			    
-		    sh ""
+		    sh """
 		    
 		    cd java
 		    
-		@    mvn clean install
+		    mvn clean install
 		    
-		@    ""
+		    ""
 		    
 		    }
 	    }
