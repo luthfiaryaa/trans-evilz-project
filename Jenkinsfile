@@ -118,8 +118,7 @@ pipeline {
         
 
         sudo docker image rm irvanmr/java:evilcorps-v1
-        
-        sudo docker pull irvanmr/java:evilcorps-v1
+      
 	
 	sudo docker run --name java -dp 87:80 irvanmr/java:evilcorps-v1
          
@@ -129,7 +128,8 @@ pipeline {
 
      /*   stage('remote ubuntu'){
             steps{
-		        
+		          
+        sudo docker pull irvanmr/java:evilcorps-v1
               sudo docker run --name reactjs -dp 89:80 irvanmr/reactjs:evilcorps-v1
         
                 ssh vaan@10.0.2.4
