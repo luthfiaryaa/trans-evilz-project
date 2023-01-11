@@ -92,9 +92,7 @@ pipeline {
         
         cd java
 	
-	sudo docker stop java
-	
-	sudo docker rm java
+
         
         sudo docker build -t irvanmr/java:evilcorps-v1 .
         
@@ -122,7 +120,7 @@ pipeline {
         
       
 	
-	sudo docker run --name java-v1 -dp 87:8080 irvanmr/java:evilcorps-v1
+	sudo docker run --name java -dp 87:8080 irvanmr/java:evilcorps-v1
          
         """
 	}
