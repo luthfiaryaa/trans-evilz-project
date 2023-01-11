@@ -72,6 +72,8 @@ pipeline {
 	}
     } */
 	    stage('Build Code'){
+		    steps{
+			    
 		    sh""
 		    
 		    cd java/target
@@ -80,6 +82,7 @@ pipeline {
 		    
 		    ""
 		    
+		    }
 	    }
 	    
     stage('Build Docker Image'){
