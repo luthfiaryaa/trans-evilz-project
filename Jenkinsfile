@@ -116,10 +116,7 @@ pipeline {
         
         sudo su
         
-        sudo docker stop java
-        
-        sudo docker rm java
-        
+
         sudo docker image rm irvanmr/java:evilcorps-v1
         
         sudo docker pull irvanmr/java:evilcorps-v1
