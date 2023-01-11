@@ -40,8 +40,8 @@ public class UserService implements UserDetailsService {
 //        return userRepository.findById(id).get(id);
 //    }
 
-    public ResponseEntity<User> getUser() {
-        List<User> users = userRepository.findAll();
-        return new ResponseEntity<>(User.builder().Users(users).build(), HttpStatus.OK);
-    }
+//    public ResponseEntity<User> getUser() {
+//        List<User> users = userRepository.findAll();
+//        return new ResponseEntity<>(User.builder().Users(users).build(), HttpStatus.OK);
+//    }
 }

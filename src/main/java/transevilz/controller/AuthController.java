@@ -11,7 +11,6 @@ import transevilz.jwt.JwtUtils;
 import transevilz.repository.UserRepository;
 import transevilz.services.AuthService;
 
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -21,7 +20,6 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-
 
     @Autowired
     private UserRepository userRepository;
