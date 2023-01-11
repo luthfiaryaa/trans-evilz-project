@@ -9,23 +9,18 @@ import org.springframework.stereotype.Service;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.MessageResponse;
 import transevilz.domain.dto.PasswordRequest;
-import transevilz.domain.dto.SignupRequest;
 import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ForgetPasswordService {
-
 
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     RoleRepository roleRepository;
 

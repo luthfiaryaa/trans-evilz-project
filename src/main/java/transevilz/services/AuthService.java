@@ -1,5 +1,6 @@
 package transevilz.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,22 +13,17 @@ import org.springframework.stereotype.Service;
 import transevilz.domain.dao.ERole;
 import transevilz.domain.dao.Role;
 import transevilz.domain.dao.User;
+import transevilz.domain.dto.*;
 import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
-import transevilz.domain.dto.LoginRequest;
-import transevilz.domain.dto.SignupRequest;
-import transevilz.domain.dto.JwtResponse;
-import transevilz.domain.dto.MessageResponse;
 import transevilz.jwt.JwtUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class AuthService {
 
     @Autowired
@@ -45,10 +41,7 @@ public class AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
-    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+    public ResponseEntity<?> authenticate(Authentication authentication, HttpServletResponse servletResponse) {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -57,29 +50,48 @@ public class AuthService {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-
         servletResponse.addHeader("token_access", userDetails.getPassword());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+        Optional<User> users = userRepository.findById(userDetails.getId());
 
+        return new ResponseEntity<>(JwtResponse.builder().accessToken(jwt)/*.id(userDetails.getId()).type("Bearer")
+                .email(userDetails.getEmail()).firstname(userDetails.getFirstname()).lastname(userDetails.getLastname())*/
+                .user(users).build(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest, HttpServletResponse servletResponse) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
+        return this.authenticate(authentication, servletResponse);
+    }
+
+    public ResponseEntity<?> authenticateAdmin(LoginRequest loginRequest, HttpServletResponse servletResponse) {
+        log.info(loginRequest.getUsername());
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        return this.authenticate(authentication, servletResponse);
     }
 
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(new MessageResponse("Error: Email is already in use!"));
             return new ResponseEntity<>(MessageResponse.builder().message("EMAIL_IS_ALREADY_IN_USE").build(), HttpStatus.BAD_REQUEST);
         }
 
         // Create new user's account
         User user = new User(signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                signUpRequest.getDoc_tyoe(),
+                signUpRequest.getDoc_number(),
+                signUpRequest.getFirstname(),
+                signUpRequest.getLastname(),
+                signUpRequest.getBirth_place(),
+                signUpRequest.getBirth_date(),
+                signUpRequest.getAddress(),
+                signUpRequest.getPhone_number(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getSex());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -104,10 +116,14 @@ public class AuthService {
                 }
             });
         }
-
         user.setRoles(roles);
         userRepository.save(user);
         return new ResponseEntity<>(MessageResponse.builder().message("USER_REGISTER_SUCCESS").build(), HttpStatus.OK);
-//        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+    public ResponseEntity<UserDTO> getUser() {
+        List<User> users = userRepository.findAll();
+        return new ResponseEntity<>(UserDTO.builder().users(users).build(), HttpStatus.OK);
+    }
+
 }

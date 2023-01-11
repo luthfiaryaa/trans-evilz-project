@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,17 +31,20 @@ public class User {
     @Column(name = "USERNAME", length = 200)
     private String username;
 
-    @Column(name = "URL_PICTURE", length = 200)
-    private String picture;
+//    @Column(name = "URL_PICTURE", length = 200)
+//    private String picture;
 
     @Column(name = "EMAIL", length = 20, unique = true)
     private String email;
 
-    @Column(name = "CITIZENSHIP", length = 15)
-    private Integer citizenship;
+//    @Column(name = "CITIZENSHIP", length = 15)
+//    private String citizenship;
 
-    @Column(name = "DOCUMENT", length = 10)
-    private String document;
+    @Column(name = "DOCUMENT_TYPE", length = 10)
+    private String doc_type;
+
+    @Column(name = "DOCUMENT_NUMBER", length = 10)
+    private String doc_number;
 
     @Column(name = "FIRST_NAME", length = 200)
     private String firstname;
@@ -49,20 +53,20 @@ public class User {
     private String lastname;
 
     @Column(name = "PLACE_OF_BIRTH", length = 200)
-    private String placeofbirth;
+    private String birth_place;
 
-    @Column(name = "DATE_OF_BIRTH", length = 200)
+    @Column(name = "BIRTH_DATE", length = 200)
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date dateofbirth;
+    private LocalDate birth_date;
 
     @Column(name = "ADDRESS", length = 200)
     private String address;
 
-    @Column(name = "GENDER", length = 200)
-    private String gender;
+    @Column(name = "SEX", length = 200)
+    private String sex;
 
-    @Column(name = "PHONE", length = 11)
-    private Long phone;
+    @Column(name = "PHONE_NUMBER", length = 50)
+    private String phone_number;
 
     @Column(name = "PASSWORD", length = 120)
     private String password;
@@ -76,8 +80,20 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String email, String password) {
+    public User(String email, String doc_number, String doc_type, String firstname, String lastname,
+                String birth_place, LocalDate birth_date, String address, String phone_number, String password,
+                String sex) {
         this.email = email;
+        this.doc_number = doc_number;
+        this.doc_type = doc_type;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birth_place = birth_place;
+        this.birth_date = birth_date;
+        this.address = address;
+        this.phone_number = phone_number;
         this.password = password;
+        this.sex = sex;
     }
+
 }

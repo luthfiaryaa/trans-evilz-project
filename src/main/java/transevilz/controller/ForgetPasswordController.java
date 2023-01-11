@@ -9,11 +9,10 @@ import transevilz.services.ForgetPasswordService;
 
 import javax.validation.Valid;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api1/forget")
+@RequestMapping("/api/v2")
 public class ForgetPasswordController {
-
 
     @Autowired
     private ForgetPasswordService forgetPasswordService;
@@ -21,7 +20,7 @@ public class ForgetPasswordController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/")
+    @PostMapping("/forget")
     public ResponseEntity<?> forgetPassword(@Valid @RequestBody PasswordRequest passwordRequest) {
         return forgetPasswordService.forgetPassword(passwordRequest);
     }
