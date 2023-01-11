@@ -80,7 +80,7 @@ pipeline {
 		    
 		    mvn clean install
 		    
-		    ""
+		    """
 		    
 		    }
 	    }
