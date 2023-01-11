@@ -78,9 +78,9 @@ pipeline {
 		    
 		    cd java
 		    
-		    mvn clean install
+		@    mvn clean install
 		    
-		    ""
+		@    ""
 		    
 		    }
 	    }
@@ -124,7 +124,7 @@ pipeline {
         
         sudo docker pull irvanmr/java:evilcorps-v1
 	
-	      sudo docker run --name java -dp 87:80 irvanmr/java:evilcorps-v1
+	sudo docker run --name java -dp 87:80 irvanmr/java:evilcorps-v1
          
         """
 	}
