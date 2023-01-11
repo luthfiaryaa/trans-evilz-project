@@ -57,6 +57,7 @@ pipeline {
                 }
             }
         } */
+	    
 /*         stage('Build Code'){
              steps{
         sh """
@@ -70,8 +71,18 @@ pipeline {
         """
 	}
     } */
-    
-    stage('Build Code + Docker Image'){
+	    stage('Build Code'){
+		    sh""
+		    
+		    cd java/target
+		    
+		    mvn clean install
+		    
+		    ""
+		    
+	    }
+	    
+    stage('Build Docker Image'){
 	steps{
 
         sh """
