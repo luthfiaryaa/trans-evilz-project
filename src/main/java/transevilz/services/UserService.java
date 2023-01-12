@@ -36,12 +36,4 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElse(null);
     }
 
-//    public User findById(Long id){
-//        return userRepository.findById(id).get(id);
-//    }
-
-//    public ResponseEntity<User> getUser() {
-//        List<User> users = userRepository.findAll();
-//        return new ResponseEntity<>(User.builder().Users(users).build(), HttpStatus.OK);
-//    }
 }

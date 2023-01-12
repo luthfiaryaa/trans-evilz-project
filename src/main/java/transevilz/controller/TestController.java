@@ -14,6 +14,7 @@ import transevilz.services.AuthService;
 @RequestMapping("/api")
 public class TestController {
 
+
     @Autowired
     private AuthService authService;
 
@@ -41,9 +42,6 @@ public class TestController {
 //    public ResponseEntity<MessageResponse> getUser() {
 //        return authService.getUser();
 //    }
-    @GetMapping("/alluser")
-    public ResponseEntity<UserDTO> getUser() {
-        return authService.getUser();
-    }
+
 
 }

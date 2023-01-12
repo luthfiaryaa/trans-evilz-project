@@ -11,7 +11,7 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class ForgetPasswordController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class ForgetPasswordController {
         return forgetPasswordService.forgetPassword(passwordRequest);
     }
 
-    @PostMapping("/reset")
+    @PostMapping("/new_password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody PasswordRequest passwordRequest) {
         return forgetPasswordService.resetPassword(passwordRequest);
     }

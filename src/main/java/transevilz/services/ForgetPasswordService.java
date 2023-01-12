@@ -37,7 +37,9 @@ public class ForgetPasswordService {
 
     public ResponseEntity<?> resetPassword(PasswordRequest passwordRequest) {
         Optional<User> user = userRepository.findByEmail(passwordRequest.getEmail());
-        if (user!=null){
+
+//        if (user.isEmpty())
+        if (!user.isPresent()){
             return new ResponseEntity<>(MessageResponse.builder().message("EMAIL_NOT_FOUND").build(), HttpStatus.BAD_REQUEST);
         }
         user.get().setPassword(encoder.encode(passwordRequest.getPassword()));

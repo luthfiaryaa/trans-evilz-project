@@ -37,9 +37,5 @@ public class AuthController {
         return authService.registerUser(signUpRequest);
     }
 
-    @PostMapping("/signin/admin")
-    public ResponseEntity<?> authenticationAdmin(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse servletResponse) {
-        return authService.authenticateAdmin(loginRequest, servletResponse);
-    }
 }
 

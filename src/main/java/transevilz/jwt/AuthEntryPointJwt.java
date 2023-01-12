@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
@@ -28,13 +29,14 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final Map<String, Object> body = new HashMap<>();
+        final Map<String, Object> body = new LinkedHashMap<>();
 //        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
 //        body.put("error", "Unauthorized");
 //        body.put("message", authException.getMessage());
 //        body.put("path", request.getServletPath());
         body.put("status", "failed to login");
         body.put("message", "email or password invalid");
+
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);

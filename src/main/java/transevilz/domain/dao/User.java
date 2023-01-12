@@ -1,6 +1,7 @@
 package transevilz.domain.dao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class User {
 //    @Column(name = "URL_PICTURE", length = 200)
 //    private String picture;
 
-    @Column(name = "EMAIL", length = 20, unique = true)
+    @Column(name = "EMAIL", length = 200, unique = true)
     private String email;
 
 //    @Column(name = "CITIZENSHIP", length = 15)
@@ -43,7 +44,7 @@ public class User {
     @Column(name = "DOCUMENT_TYPE", length = 10)
     private String doc_type;
 
-    @Column(name = "DOCUMENT_NUMBER", length = 10)
+    @Column(name = "DOCUMENT_NUMBER", length = 200)
     private String doc_number;
 
     @Column(name = "FIRST_NAME", length = 200)
@@ -74,6 +75,7 @@ public class User {
     @Column(name = "M_PIN", length = 200)
     private String mpin;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

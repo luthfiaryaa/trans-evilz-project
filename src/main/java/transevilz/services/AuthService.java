@@ -2,6 +2,7 @@ package transevilz.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,6 +42,9 @@ public class AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Value("${evil.app.jwtExpirationMs}")
+    private int jwtExpirationMs;
+
     public ResponseEntity<?> authenticate(Authentication authentication, HttpServletResponse servletResponse) {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,11 +56,17 @@ public class AuthService {
                 .collect(Collectors.toList());
         servletResponse.addHeader("token_access", userDetails.getPassword());
 
-        Optional<User> users = userRepository.findById(userDetails.getId());
-
-        return new ResponseEntity<>(JwtResponse.builder().accessToken(jwt)/*.id(userDetails.getId()).type("Bearer")
-                .email(userDetails.getEmail()).firstname(userDetails.getFirstname()).lastname(userDetails.getLastname())*/
-                .user(users).build(), HttpStatus.OK);
+        return new ResponseEntity<>(JwtResponse.builder()
+                        .accessToken(jwt)
+                        .expiredIn(String.valueOf(jwtExpirationMs))
+                        .user(UserDTO.builder()
+                                .id(userDetails.getId())
+                                .email(userDetails.getEmail())
+                                .fullname(userDetails.getFullname())
+                                .mpin(userDetails.getMpin())
+                                .build())
+                        .build(), HttpStatus.OK
+                );
     }
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest, HttpServletResponse servletResponse) {
@@ -77,7 +87,7 @@ public class AuthService {
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(MessageResponse.builder().message("EMAIL_IS_ALREADY_IN_USE").build(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(MessageResponse.builder().message("email already registered").build(), HttpStatus.BAD_REQUEST);
         }
 
         // Create new user's account
@@ -118,12 +128,28 @@ public class AuthService {
         }
         user.setRoles(roles);
         userRepository.save(user);
-        return new ResponseEntity<>(MessageResponse.builder().message("USER_REGISTER_SUCCESS").build(), HttpStatus.OK);
+        return new ResponseEntity<>(MessageResponse.builder().message("user created").build(), HttpStatus.OK);
     }
 
-    public ResponseEntity<UserDTO> getUser() {
+    public ResponseEntity<Object> getUser() {
         List<User> users = userRepository.findAll();
-        return new ResponseEntity<>(UserDTO.builder().users(users).build(), HttpStatus.OK);
+        List<FindUserDTO> userDTOList = new ArrayList<>();
+        for (User user : users){
+            FindUserDTO item = FindUserDTO.builder().id(user.getId()).firstname(user.getLastname())
+                    .lastname(user.getLastname())
+                    .email(user.getEmail())
+                    .doc_type(user.getDoc_type())
+                    .build();
+            userDTOList.add(item);
+        }
+        List<FindUserDTO> sortList = userDTOList.stream().sorted((o1, o2)->o1.getId().
+                        compareTo(o2.getId())).
+                collect(Collectors.toList());
+        return new ResponseEntity<>(sortList, HttpStatus.OK);
+    }
+
+    public User getUserId(Long id){
+        return userRepository.findById(id).get();
     }
 
 }

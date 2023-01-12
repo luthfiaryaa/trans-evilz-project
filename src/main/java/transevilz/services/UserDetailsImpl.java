@@ -129,6 +129,10 @@ public class UserDetailsImpl implements UserDetails {
         return firstname;
     }
 
+    public String getFullname(){
+        return firstname + " " + lastname;
+    }
+
     public String getLastname() {
         return lastname;
     }
