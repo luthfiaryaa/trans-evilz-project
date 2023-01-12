@@ -1,11 +1,8 @@
 package transevilz.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import transevilz.domain.dto.MessageResponse;
-import transevilz.domain.dto.UserDTO;
 import transevilz.repository.UserRepository;
 import transevilz.services.AuthService;
 
@@ -37,11 +34,5 @@ public class TestController {
     public String adminAccess() {
         return "Admin Board.";
     }
-
-//    @GetMapping("/alluser")
-//    public ResponseEntity<MessageResponse> getUser() {
-//        return authService.getUser();
-//    }
-
 
 }

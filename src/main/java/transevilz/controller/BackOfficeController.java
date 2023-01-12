@@ -30,7 +30,7 @@ public class BackOfficeController {
         return authService.authenticateAdmin(loginRequest, servletResponse);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public ResponseEntity<Object> getUser() {
         return authService.getUser();
     }
