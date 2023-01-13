@@ -145,7 +145,12 @@ public class AuthService {
         List<FindUserDTO> sortList = userDTOList.stream().sorted((o1, o2)->o1.getId().
                         compareTo(o2.getId())).
                 collect(Collectors.toList());
-        return new ResponseEntity<>(sortList, HttpStatus.OK);
+
+        BackOfficeUserResponseDTO backOfficeUserResponseDTO = new BackOfficeUserResponseDTO();
+        BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortList).build();
+//        BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortlist).build();
+
+        return new ResponseEntity<>(responseBackOffice, HttpStatus.OK);
     }
 
     public User getUserId(Long id){

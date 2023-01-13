@@ -12,11 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindUserDTO {
+public class BackOfficeUserResponseDTO {
 
-    private Long id;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String doc_type;
+    private List<FindUserDTO> users;
 }

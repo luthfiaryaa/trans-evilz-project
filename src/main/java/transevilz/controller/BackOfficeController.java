@@ -35,9 +35,12 @@ public class BackOfficeController {
         return authService.getUser();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public User getUserId(@PathVariable("id") Long id){
         return authService.getUserId(id);
     }
+
+//    @PutMapping
+//    @DeleteMapping
 
 }

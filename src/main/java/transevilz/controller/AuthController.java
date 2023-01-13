@@ -11,7 +11,6 @@ import transevilz.jwt.JwtUtils;
 import transevilz.repository.UserRepository;
 import transevilz.services.AuthService;
 
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
