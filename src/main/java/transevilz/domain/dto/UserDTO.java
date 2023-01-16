@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import transevilz.domain.dao.User;
 
 import javax.persistence.Id;
-import java.util.List;
 
 @Data
 @Builder
@@ -15,10 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 public class UserDTO {
 
-    //private User user;
     @Id
     private Long id;
     private String email;
     private String fullname;
-    private String mpin;
+    private Boolean mpinFlag;
+
+    public void setMpinFlag(Boolean mpinFlag) {
+        setMpinFlag(mpinFlag != null ? true:false);
+    }
+
+//    public void setMpinFlags(Boolean mpinFlag) {
+//        if (mpinFlag != null){
+//            mpinFlag = true;
+//        }
+//    }
+
 }

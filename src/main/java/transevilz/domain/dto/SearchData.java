@@ -5,13 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BackOfficeUserResponseDTO {
-
-    private List<FindUserDTO> users;
+public class SearchData {
+    public String searchKey;
 }

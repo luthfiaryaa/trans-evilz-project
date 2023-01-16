@@ -2,36 +2,34 @@ package transevilz.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import transevilz.domain.dao.ERole;
 import transevilz.domain.dao.Role;
 import transevilz.domain.dao.User;
-import transevilz.domain.dto.*;
+import transevilz.domain.dto.BackOfficeUserResponseDTO;
+import transevilz.domain.dto.FindUserDTO;
+import transevilz.domain.dto.MessageResponse;
+import transevilz.domain.dto.SignupRequest;
+import transevilz.jwt.JwtUtils;
 import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
-import transevilz.jwt.JwtUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class AuthService {
-
+public class BackOfficeService {
     @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
     UserRepository userRepository;
+
 
     @Autowired
     RoleRepository roleRepository;
@@ -42,49 +40,7 @@ public class AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
-    @Value("${evil.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
-
-    public ResponseEntity<?> authenticate(Authentication authentication, HttpServletResponse servletResponse) {
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-        servletResponse.addHeader("token_access", userDetails.getPassword());
-
-        return new ResponseEntity<>(JwtResponse.builder()
-                        .accessToken(jwt)
-                        .expiredIn(String.valueOf(jwtExpirationMs))
-                        .user(UserDTO.builder()
-                                .id(userDetails.getId())
-                                .email(userDetails.getEmail())
-                                .fullname(userDetails.getFullname())
-                                .mpinFlag(Boolean.valueOf(userDetails.getMpin()))
-                                .build())
-                        .build(), HttpStatus.OK
-                );
-    }
-
-    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest, HttpServletResponse servletResponse) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-        return this.authenticate(authentication, servletResponse);
-    }
-
-    public ResponseEntity<?> authenticateAdmin(LoginRequest loginRequest, HttpServletResponse servletResponse) {
-        log.info(loginRequest.getUsername());
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        return this.authenticate(authentication, servletResponse);
-    }
-
-    public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
+    public ResponseEntity<?> addUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>(MessageResponse.builder().message("email already registered").build(), HttpStatus.BAD_REQUEST);
@@ -131,4 +87,51 @@ public class AuthService {
         return new ResponseEntity<>(MessageResponse.builder().message("user created").build(), HttpStatus.OK);
     }
 
+    public ResponseEntity<Object> getUser() {
+        List<User> users = userRepository.findAll();
+        List<FindUserDTO> userDTOList = new ArrayList<>();
+        for (User user : users){
+            FindUserDTO item = FindUserDTO.builder().id(user.getId()).firstname(user.getLastname())
+                    .lastname(user.getLastname())
+                    .email(user.getEmail())
+                    .doc_type(user.getDoc_type())
+                    .build();
+            userDTOList.add(item);
+        }
+        List<FindUserDTO> sortList = userDTOList.stream().sorted((o1, o2)->o1.getId().
+                        compareTo(o2.getId())).
+                collect(Collectors.toList());
+
+        BackOfficeUserResponseDTO backOfficeUserResponseDTO = new BackOfficeUserResponseDTO();
+        BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortList).build();
+//        BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortlist).build();
+
+        return new ResponseEntity<>(responseBackOffice, HttpStatus.OK);
+    }
+
+    public User getUserId(Long id){
+        return userRepository.findById(id).get();
+    }
+
+    public ResponseEntity<User> updateUsers(Long id, User user) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User users = userOptional.get();
+            users.setFirstname(user.getFirstname());
+            users.setSex(user.getSex());
+            return new ResponseEntity<>(userRepository.save(users), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<?> deleteUsers(Long id) {
+
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return new ResponseEntity<>(MessageResponse.builder().message("user deleted").status("success").build(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(MessageResponse.builder().message("user not found").status("failed").build(), HttpStatus.BAD_REQUEST);
+    }
 }

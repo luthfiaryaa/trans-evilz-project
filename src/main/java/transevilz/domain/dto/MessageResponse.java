@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MessageResponse<T> {
 
-   // List<User> user;
     private String message;
-    // private T data;
+    private String status;
+
 }

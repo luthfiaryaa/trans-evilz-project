@@ -26,6 +26,7 @@ public class ForgetPasswordService {
 
     @Autowired
     PasswordEncoder encoder;
+
     public ResponseEntity<?> forgetPassword(PasswordRequest passwordRequest) {
 
         if (!userRepository.existsByEmail(passwordRequest.getEmail())){
@@ -46,5 +47,6 @@ public class ForgetPasswordService {
         userRepository.save(user.get());
         return new ResponseEntity<>(MessageResponse.builder().message("NEW_PASSWORD_SUCCESS").build(), HttpStatus.OK);
     }
+
 
 }

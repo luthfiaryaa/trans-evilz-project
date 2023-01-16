@@ -22,7 +22,7 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private String doc_tyoe;
+    private String doc_type;
     private String doc_number;
     private String firstname;
     private String lastname;
