@@ -2,6 +2,7 @@ package transevilz.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,27 +19,25 @@ import transevilz.jwt.JwtUtils;
 import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
 
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class BackOfficeService {
+
     @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
     UserRepository userRepository;
 
-
     @Autowired
     RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
-
-    @Autowired
-    JwtUtils jwtUtils;
 
     public ResponseEntity<?> addUser(SignupRequest signUpRequest) {
 
@@ -134,4 +133,21 @@ public class BackOfficeService {
         }
         return new ResponseEntity<>(MessageResponse.builder().message("user not found").status("failed").build(), HttpStatus.BAD_REQUEST);
     }
+
+    public static Specification<User> getUserName(String firstname, String email){
+        return ((root, query, criteriaBuilder) ->{
+            List<Predicate> predicate = new ArrayList<>();
+
+            if (firstname != null && !(firstname.isEmpty())){
+                predicate.add(criteriaBuilder.equal(root.get("firstname"),firstname));
+            }
+
+            if (email != null && !(email.isEmpty())){
+                predicate.add(criteriaBuilder.equal(root.get("email"),email));
+            }
+
+            return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+
 }

@@ -23,9 +23,6 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    JwtUtils jwtUtils;
-
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse servletResponse) {
         return authService.authenticateUser(loginRequest, servletResponse);

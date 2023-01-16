@@ -2,12 +2,12 @@ package transevilz.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.LoginRequest;
 import transevilz.domain.dto.SignupRequest;
-import transevilz.jwt.JwtUtils;
 import transevilz.repository.UserRepository;
 import transevilz.services.AuthService;
 import transevilz.services.BackOfficeService;
@@ -16,6 +16,7 @@ import transevilz.services.UserService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,9 +37,6 @@ public class BackOfficeController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    JwtUtils jwtUtils;
 
     @PostMapping("/users")
     public ResponseEntity<?> addUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -68,6 +66,14 @@ public class BackOfficeController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUsers(@PathVariable("id") Long id) {
         return backOfficeService.deleteUsers(id);
+    }
+
+    @GetMapping("/users/find")
+    public List<User> list(
+            @RequestParam(value = "firstname", required = false) String firstname,
+            @RequestParam(value = "email", required = false) String email){
+        Specification<User> specification = backOfficeService.getUserName(firstname, email);
+        return userRepository.findAll(specification);
     }
 
 }

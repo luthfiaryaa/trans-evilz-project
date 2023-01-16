@@ -63,7 +63,7 @@ public class AuthService {
                                 .id(userDetails.getId())
                                 .email(userDetails.getEmail())
                                 .fullname(userDetails.getFullname())
-                                .mpinFlag(Boolean.valueOf(userDetails.getMpin()))
+                                .mpinFlag(Objects.isNull(userDetails.getMpin()) ? false : true)
                                 .build())
                         .build(), HttpStatus.OK
                 );

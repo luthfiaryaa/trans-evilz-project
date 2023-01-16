@@ -19,14 +19,4 @@ public class UserDTO {
     private String fullname;
     private Boolean mpinFlag;
 
-    public void setMpinFlag(Boolean mpinFlag) {
-        setMpinFlag(mpinFlag != null ? true:false);
-    }
-
-//    public void setMpinFlags(Boolean mpinFlag) {
-//        if (mpinFlag != null){
-//            mpinFlag = true;
-//        }
-//    }
-
 }

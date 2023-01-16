@@ -130,6 +130,9 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getFullname(){
+        if (Objects.isNull(firstname) && Objects.isNull(lastname)){
+            return null;
+        }
         return firstname + " " + lastname;
     }
 
