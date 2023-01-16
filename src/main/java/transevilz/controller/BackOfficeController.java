@@ -40,7 +40,7 @@ public class BackOfficeController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/adduser")
+    @PostMapping("/users")
     public ResponseEntity<?> addUser(@Valid @RequestBody SignupRequest signUpRequest) {
         return backOfficeService.addUser(signUpRequest);
     }
