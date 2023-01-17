@@ -15,7 +15,6 @@ import transevilz.domain.dto.BackOfficeUserResponseDTO;
 import transevilz.domain.dto.FindUserDTO;
 import transevilz.domain.dto.MessageResponse;
 import transevilz.domain.dto.SignupRequest;
-import transevilz.jwt.JwtUtils;
 import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
 
@@ -150,4 +149,8 @@ public class BackOfficeService {
         });
     }
 
+
+    public List<User> getProductByName(String search){
+        return userRepository.search(search);
+    }
 }

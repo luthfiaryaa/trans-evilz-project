@@ -2,7 +2,6 @@ package transevilz.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import transevilz.domain.dao.User;
@@ -68,12 +67,16 @@ public class BackOfficeController {
         return backOfficeService.deleteUsers(id);
     }
 
-    @GetMapping("/users/find")
-    public List<User> list(
-            @RequestParam(value = "firstname", required = false) String firstname,
-            @RequestParam(value = "email", required = false) String email){
-        Specification<User> specification = backOfficeService.getUserName(firstname, email);
-        return userRepository.findAll(specification);
-    }
+//    @GetMapping("/users/find")
+//    public List<User> list(
+//            @RequestParam(value = "firstname", required = false) String firstname,
+//            @RequestParam(value = "email", required = false) String email){
+//        Specification<User> specification = backOfficeService.getUserName(firstname, email);
+//        return userRepository.findAll(specification);
+//    }
 
+    @GetMapping("/users/")
+    public List<User> getProductByName(String search){
+        return backOfficeService.getProductByName(search);
+    }
 }
