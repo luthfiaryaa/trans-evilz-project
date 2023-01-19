@@ -30,11 +30,12 @@ public class SignupRequest {
     private String birth_place;
     private LocalDateTime birth_date;
     private String address;
-    private String phone_number;
 
+
+
+    private String sex;
     @NotBlank
     private String password;
-    private String sex;
-
+    private String phone_number;
     private Set<String> role;
 }

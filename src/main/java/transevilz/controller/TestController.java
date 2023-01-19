@@ -16,7 +16,7 @@ import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
 import transevilz.services.AuthService;
 import transevilz.services.UserDetailsImpl;
-import transevilz.util.TokenUtils;
+//import transevilz.util.TokenUtils;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -64,11 +64,11 @@ public class TestController {
     }
 
 
-    @PostMapping("/users")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> createPin(){
-        String email = TokenUtils.claimToAppUser(TokenUtils.getClaim("Authorization"));
-        Optional<User> user = userRepository.findByEmail(email);
+//    @PostMapping("/users")
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    public ResponseEntity<?> createPin(){
+//        String email = TokenUtils.claimToAppUser(TokenUtils.getClaim("Authorization"));
+//        Optional<User> user = userRepository.findByEmail(email);
 
 //        if (!user.isEmpty()) {
 //        user.get().setMpin(pinRequest.getMpin());
@@ -77,12 +77,12 @@ public class TestController {
 //            } else {
 //        return new ResponseEntity<>(MessageResponse.builder().message("pin already").build(), HttpStatus.BAD_REQUEST);
 //        }
-        if (!user.isEmpty()){
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(MessageResponse.builder().message("failed").build(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//        if (!user.isEmpty()){
+//            return new ResponseEntity<>(user, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(MessageResponse.builder().message("failed").build(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 //    @PostMapping("/users/pin")
 //    @PreAuthorize("hasRole('ROLE_USER')")

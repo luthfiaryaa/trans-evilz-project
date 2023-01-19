@@ -24,8 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT DISTINCT * FROM users, user_roles WHERE user_roles.role_id = 2 ", nativeQuery = true)
     List<User> findAllUser();
 
-//    @Query("select u from users u join role r where r.roleName = :roleName")
-//    List<User> findAllByRolename(@Param("roleName")String roleName);
+//    @Query("SELECT u FROM users u JOIN role r WHERE r.name = :name")
+//    List<User> findAllByRolename(@Param("name")String roleName);
 
     @Query(value = "SELECT * FROM users WHERE first_name LIKE %?1% OR last_name LIKE %?1%", nativeQuery = true)
     List<User> search(String search);

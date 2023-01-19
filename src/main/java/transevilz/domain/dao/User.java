@@ -90,7 +90,7 @@ public class User {
     private Set<Transaction> transaction;
 
     public User(String email, String doc_type, String doc_number, String firstname, String lastname, String birth_place,
-                LocalDateTime birth_date, String address, String sex, String phone_number, String password) {
+                LocalDateTime birth_date, String address, String phone_number, String password, String sex) {
         this.email = email;
         this.doc_type = doc_type;
         this.doc_number = doc_number;
@@ -99,9 +99,9 @@ public class User {
         this.birth_place = birth_place;
         this.birth_date = birth_date;
         this.address = address;
-        this.sex = sex;
-        this.phone_number = phone_number;
         this.password = password;
+        this.phone_number = phone_number;
+        this.sex = sex;
     }
 
     //    public User(String email, String doc_number, String doc_type, String firstname, String lastname,
