@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -27,7 +28,7 @@ public class SignupRequest {
     private String firstname;
     private String lastname;
     private String birth_place;
-    private LocalDate birth_date;
+    private LocalDateTime birth_date;
     private String address;
     private String phone_number;
 

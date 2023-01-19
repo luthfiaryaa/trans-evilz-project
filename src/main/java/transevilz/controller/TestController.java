@@ -7,10 +7,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import transevilz.domain.dao.Role;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.MessageResponse;
 import transevilz.domain.dto.PinRequest;
 import transevilz.domain.dto.UserDTO;
+import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
 import transevilz.services.AuthService;
 import transevilz.services.UserDetailsImpl;
@@ -30,6 +32,8 @@ public class TestController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/test")
     public String allAccess() {
@@ -101,7 +105,6 @@ public class TestController {
     public ResponseEntity<Object> getName(Authentication authentication, @RequestBody PinRequest pinRequest) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         Optional<User> user = userRepository.findByEmail(userPrincipal.getEmail());
-
 
         if (!user.isEmpty() && userPrincipal.getMpin() == null) {
             user.get().setMpin(pinRequest.getMpin());

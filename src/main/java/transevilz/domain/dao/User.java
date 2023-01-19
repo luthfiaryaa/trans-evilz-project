@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,7 +58,8 @@ public class User {
     private String birth_place;
 
     @Column(name = "BIRTH_DATE", length = 200)
-    private LocalDate birth_date;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime birth_date;
 
     @Column(name = "ADDRESS", length = 200)
     private String address;
@@ -87,20 +89,35 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Transaction> transaction;
 
-    public User(String email, String doc_number, String doc_type, String firstname, String lastname,
-                String birth_place, LocalDate birth_date, String address, String phone_number, String password,
-                String sex) {
+    public User(String email, String doc_type, String doc_number, String firstname, String lastname, String birth_place,
+                LocalDateTime birth_date, String address, String sex, String phone_number, String password) {
         this.email = email;
-        this.doc_number = doc_number;
         this.doc_type = doc_type;
+        this.doc_number = doc_number;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birth_place = birth_place;
         this.birth_date = birth_date;
         this.address = address;
+        this.sex = sex;
         this.phone_number = phone_number;
         this.password = password;
-        this.sex = sex;
     }
+
+    //    public User(String email, String doc_number, String doc_type, String firstname, String lastname,
+//                String birth_place, LocalDateTime birth_date, String address, String phone_number, String password,
+//                String sex) {
+//        this.email = email;
+//        this.number = doc_number;
+//        this.doc_type = doc_type;
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//        this.birth_place = birth_place;
+//        this.birth_date = birth_date;
+//        this.address = address;
+//        this.phone_number = phone_number;
+//        this.password = password;
+//        this.sex = sex;
+//    }
 
 }

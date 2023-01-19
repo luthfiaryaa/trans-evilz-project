@@ -104,7 +104,7 @@ public class AuthService {
                 signUpRequest.getBirth_date(),
                 signUpRequest.getAddress(),
                 signUpRequest.getPhone_number(),
-                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getPassword(),
                 signUpRequest.getSex());
 
         Set<String> strRoles = signUpRequest.getRole();

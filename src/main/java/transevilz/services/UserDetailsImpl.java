@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import transevilz.domain.dao.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
     private String firstname;
     private String lastname;
     private String birth_place;
-    private LocalDate birth_date;
+    private LocalDateTime birth_date;
     private String address;
     private String sex;
     private String phone_number;
@@ -36,7 +37,7 @@ public class UserDetailsImpl implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Long id, String username, String email, String password, String doc_type, String doc_number,
-                           String firstname, String lastname, String birth_place, LocalDate birth_date, String address,
+                           String firstname, String lastname, String birth_place, LocalDateTime birth_date, String address,
                            String sex, String phone_number, String mpin,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
@@ -97,7 +98,7 @@ public class UserDetailsImpl implements UserDetails {
         return doc_type;
     }
 
-    public String getDoc_number() {
+    public String getDoc_Number() {
         return doc_number;
     }
 
@@ -105,7 +106,7 @@ public class UserDetailsImpl implements UserDetails {
         return birth_place;
     }
 
-    public LocalDate getBirth_date() {
+    public LocalDateTime getBirth_date() {
         return birth_date;
     }
 

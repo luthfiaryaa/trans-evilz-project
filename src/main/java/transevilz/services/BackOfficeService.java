@@ -91,7 +91,7 @@ public class BackOfficeService {
     }
 
     public ResponseEntity<Object> getUser() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAllUser();
         List<FindUserDTO> userDTOList = new ArrayList<>();
         for (User user : users){
             FindUserDTO item = FindUserDTO.builder().id(user.getId()).firstname(user.getLastname())
@@ -101,6 +101,7 @@ public class BackOfficeService {
                     .build();
             userDTOList.add(item);
         }
+
         List<FindUserDTO> sortList = userDTOList.stream().sorted((o1, o2)->o1.getId().
                         compareTo(o2.getId())).
                 collect(Collectors.toList());
