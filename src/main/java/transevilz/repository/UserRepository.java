@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import transevilz.domain.dao.User;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
+    boolean findByMpin(String mpin);
 
     Optional<User> findById(Long id);
 
@@ -24,6 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> search(String search);
 
     Boolean existsByEmail(String email);
-
+    //Boolean existByPin(String mpin);
     List<User> findAll(Specification<User> specification);
 }

@@ -57,7 +57,6 @@ public class User {
     private String birth_place;
 
     @Column(name = "BIRTH_DATE", length = 200)
-    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birth_date;
 
     @Column(name = "ADDRESS", length = 200)
@@ -75,12 +74,18 @@ public class User {
     @Column(name = "M_PIN", length = 200)
     private String mpin;
 
+    @Column(name = "IS_DISABLE", length = 200, columnDefinition = "varchar(200) default 'false'")
+    private boolean is_disable;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Transaction> transaction;
 
     public User(String email, String doc_number, String doc_type, String firstname, String lastname,
                 String birth_place, LocalDate birth_date, String address, String phone_number, String password,

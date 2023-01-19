@@ -3,6 +3,7 @@ package transevilz.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import transevilz.domain.dto.MessageResponse;
 import transevilz.domain.dto.PasswordRequest;
 import transevilz.repository.UserRepository;
 import transevilz.services.ForgetPasswordService;
@@ -29,4 +30,6 @@ public class ForgetPasswordController {
     public ResponseEntity<?> resetPassword(@Valid @RequestBody PasswordRequest passwordRequest) {
         return forgetPasswordService.resetPassword(passwordRequest);
     }
+
 }
+

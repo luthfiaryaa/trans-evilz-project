@@ -13,9 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import transevilz.domain.dao.ERole;
 import transevilz.domain.dao.Role;
+import transevilz.domain.dao.Target;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.*;
 import transevilz.repository.RoleRepository;
+import transevilz.repository.TargetRepository;
 import transevilz.repository.UserRepository;
 import transevilz.jwt.JwtUtils;
 
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class AuthService {
+    @Autowired
+    private TargetRepository targetRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -129,6 +133,18 @@ public class AuthService {
         user.setRoles(roles);
         userRepository.save(user);
         return new ResponseEntity<>(MessageResponse.builder().message("user created").build(), HttpStatus.OK);
+    }
+
+    public List<Target> getNameTarget(String search){
+        return targetRepository.search(search);
+    }
+
+    public ResponseEntity<Object> getTargetA(String search) {
+
+        Optional<Target> targets = targetRepository.searcha(search);
+        Target target1 = targets.get();
+
+        return new ResponseEntity<>(TargetResponse.builder().name(target1.getName()).build(), HttpStatus.OK);
     }
 
 }

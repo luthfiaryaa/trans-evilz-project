@@ -4,14 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import transevilz.domain.dao.Bank;
+import transevilz.domain.dao.Transaction;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.LoginRequest;
 import transevilz.domain.dto.SignupRequest;
+import transevilz.repository.BankRepository;
+import transevilz.repository.TransactionRepository;
 import transevilz.repository.UserRepository;
-import transevilz.services.AuthService;
-import transevilz.services.BackOfficeService;
-import transevilz.services.ForgetPasswordService;
-import transevilz.services.UserService;
+import transevilz.services.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,10 +24,17 @@ import java.util.List;
 @RequestMapping("/api/backoffice")
 public class BackOfficeController {
     @Autowired
+    private BankRepository bankRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
     private AuthService authService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @Autowired
     private BackOfficeService backOfficeService;
@@ -52,6 +60,11 @@ public class BackOfficeController {
         return backOfficeService.getUser();
     }
 
+    @GetMapping("/usersss")
+    public ResponseEntity<Object> getBank() {
+        return transactionService.getBank();
+    }
+
     @GetMapping("/users/{id}")
     public User getUserId(@PathVariable("id") Long id){
         return backOfficeService.getUserId(id);
@@ -67,16 +80,9 @@ public class BackOfficeController {
         return backOfficeService.deleteUsers(id);
     }
 
-//    @GetMapping("/users/find")
-//    public List<User> list(
-//            @RequestParam(value = "firstname", required = false) String firstname,
-//            @RequestParam(value = "email", required = false) String email){
-//        Specification<User> specification = backOfficeService.getUserName(firstname, email);
-//        return userRepository.findAll(specification);
-//    }
-
     @GetMapping("/users/")
     public List<User> getProductByName(String search){
         return backOfficeService.getProductByName(search);
     }
+
 }

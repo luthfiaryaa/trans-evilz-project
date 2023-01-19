@@ -10,12 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import transevilz.domain.dao.ERole;
 import transevilz.domain.dao.Role;
+import transevilz.domain.dao.Target;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.BackOfficeUserResponseDTO;
 import transevilz.domain.dto.FindUserDTO;
 import transevilz.domain.dto.MessageResponse;
 import transevilz.domain.dto.SignupRequest;
 import transevilz.repository.RoleRepository;
+import transevilz.repository.TargetRepository;
 import transevilz.repository.UserRepository;
 
 import javax.persistence.criteria.Predicate;
@@ -33,6 +35,9 @@ public class BackOfficeService {
     UserRepository userRepository;
 
     @Autowired
+    TargetRepository targetRepository;
+
+    @Autowired
     RoleRepository roleRepository;
 
     @Autowired
@@ -41,7 +46,7 @@ public class BackOfficeService {
     public ResponseEntity<?> addUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(MessageResponse.builder().message("email already registered").build(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(MessageResponse.builder().message("email already registered").status("failed").build(), HttpStatus.BAD_REQUEST);
         }
 
         // Create new user's account
@@ -54,7 +59,7 @@ public class BackOfficeService {
                 signUpRequest.getBirth_date(),
                 signUpRequest.getAddress(),
                 signUpRequest.getPhone_number(),
-                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getPassword(),
                 signUpRequest.getSex());
 
         Set<String> strRoles = signUpRequest.getRole();
@@ -82,7 +87,7 @@ public class BackOfficeService {
         }
         user.setRoles(roles);
         userRepository.save(user);
-        return new ResponseEntity<>(MessageResponse.builder().message("user created").build(), HttpStatus.OK);
+        return new ResponseEntity<>(MessageResponse.builder().message("user created").status("success").build(), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> getUser() {
@@ -152,5 +157,10 @@ public class BackOfficeService {
 
     public List<User> getProductByName(String search){
         return userRepository.search(search);
+    }
+
+    public ResponseEntity<Object> getTarget() {
+        List<Target> users = targetRepository.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
