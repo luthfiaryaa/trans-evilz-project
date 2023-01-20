@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM users WHERE username=?1 or email=?1", nativeQuery = true)
     Optional<User> findUserByUsernameOrByEmail(String value);
 
-    @Query(value = "SELECT DISTINCT * FROM users, user_roles WHERE user_roles.role_id = 1", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT * FROM users, user_roles WHERE user_roles.role_id = 2", nativeQuery = true)
     List<User> findAllUser();
 
 //    @Query("SELECT u FROM users u JOIN role r WHERE r.name = :name")
