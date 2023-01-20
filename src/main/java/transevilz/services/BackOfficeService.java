@@ -103,11 +103,12 @@ public class BackOfficeService {
         }
 
         List<FindUserDTO> sortList = userDTOList.stream().sorted((o1, o2)->o1.getId().
-                        compareTo(o2.getId())).
+                        compareTo(o2.getId())).distinct().
                 collect(Collectors.toList());
 
         BackOfficeUserResponseDTO backOfficeUserResponseDTO = new BackOfficeUserResponseDTO();
         BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortList).build();
+
 //        BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortlist).build();
 
         return new ResponseEntity<>(responseBackOffice, HttpStatus.OK);

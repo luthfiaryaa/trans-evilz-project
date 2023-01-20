@@ -21,11 +21,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM users WHERE username=?1 or email=?1", nativeQuery = true)
     Optional<User> findUserByUsernameOrByEmail(String value);
 
-    @Query(value = "SELECT DISTINCT * FROM users, user_roles WHERE user_roles.role_id = 2 ", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT * FROM users, user_roles WHERE user_roles.role_id = 1", nativeQuery = true)
     List<User> findAllUser();
 
 //    @Query("SELECT u FROM users u JOIN role r WHERE r.name = :name")
 //    List<User> findAllByRolename(@Param("name")String roleName);
+
+    @Query(value = "SELECT u FROM users u WHERE u.id  IN (SELECT ur.usersId FROM roles ur WHERE ur.name = :role)", nativeQuery = true)
+    List<User> getUserList(@Param("role") String name);
 
     @Query(value = "SELECT * FROM users WHERE first_name LIKE %?1% OR last_name LIKE %?1%", nativeQuery = true)
     List<User> search(String search);
