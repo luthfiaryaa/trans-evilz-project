@@ -36,8 +36,4 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElse(null);
     }
 
-    public List<User> getUserList(){
-        String roleName = "ROLE_USER";
-        return userRepository.getUserList(roleName);
-    }
 }

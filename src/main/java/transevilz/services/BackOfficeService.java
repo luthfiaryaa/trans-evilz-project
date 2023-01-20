@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import transevilz.domain.dao.ERole;
@@ -27,9 +26,6 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class BackOfficeService {
-
-    @Autowired
-    AuthenticationManager authenticationManager;
 
     @Autowired
     UserRepository userRepository;
@@ -59,7 +55,7 @@ public class BackOfficeService {
                 signUpRequest.getBirth_date(),
                 signUpRequest.getAddress(),
                 signUpRequest.getPhone_number(),
-                signUpRequest.getPassword(),
+                encoder.encode( signUpRequest.getPassword()),
                 signUpRequest.getSex());
 
         Set<String> strRoles = signUpRequest.getRole();
@@ -92,6 +88,7 @@ public class BackOfficeService {
 
     public ResponseEntity<Object> getUser() {
         List<User> users = userRepository.findAllUser();
+        Optional<Role> userRole = roleRepository.findByName(ERole.ROLE_USER);
         List<FindUserDTO> userDTOList = new ArrayList<>();
         for (User user : users){
             FindUserDTO item = FindUserDTO.builder().id(user.getId()).firstname(user.getLastname())
@@ -108,9 +105,6 @@ public class BackOfficeService {
 
         BackOfficeUserResponseDTO backOfficeUserResponseDTO = new BackOfficeUserResponseDTO();
         BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortList).build();
-
-//        BackOfficeUserResponseDTO responseBackOffice = BackOfficeUserResponseDTO.builder().users(sortlist).build();
-
         return new ResponseEntity<>(responseBackOffice, HttpStatus.OK);
     }
 

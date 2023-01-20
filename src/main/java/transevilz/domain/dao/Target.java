@@ -29,4 +29,8 @@ public class Target {
     @ManyToOne
     @JoinColumn(name="bank_id", nullable=false)
     private Bank bank;
+
+    public Target(String no_rekening) {
+        this.no_rekening = no_rekening;
+    }
 }

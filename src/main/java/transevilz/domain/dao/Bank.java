@@ -1,9 +1,6 @@
 package transevilz.domain.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,6 +8,8 @@ import java.util.Set;
 @Entity
 @Table(schema = "public", name = "bank")
 @Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,4 +35,8 @@ public class Bank {
 
     @Column(name = "COUNTRY_NAME", length = 200, columnDefinition = "varchar(200) default 'Indonesia'")
     private String country_name;
+
+    public Bank(String code) {
+        this.code = code;
+    }
 }

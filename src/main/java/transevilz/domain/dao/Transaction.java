@@ -40,7 +40,7 @@ public class Transaction {
     private String target_id;
 
     @Column(name = "NOMINAL", length = 200)
-    private Long nominal;
+    private String nominal;
 
     @Column(name = "TYPE", length = 200, columnDefinition = "varchar(200) default 'Lokal'")
     private String type;
@@ -56,4 +56,8 @@ public class Transaction {
 
     @Column(name = "EXPIRED_AT", length = 200)
     private LocalDate expired_at;
+
+    public Transaction(String nominal) {
+        this.nominal = nominal;
+    }
 }

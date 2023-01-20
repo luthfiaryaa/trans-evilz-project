@@ -3,13 +3,11 @@ package transevilz.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.MessageResponse;
 import transevilz.domain.dto.PasswordRequest;
-import transevilz.repository.RoleRepository;
 import transevilz.repository.UserRepository;
 
 import java.util.Optional;
@@ -18,22 +16,16 @@ import java.util.Optional;
 public class ForgetPasswordService {
 
     @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
     UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
 
     public ResponseEntity<?> forgetPassword(PasswordRequest passwordRequest) {
-
         if (!userRepository.existsByEmail(passwordRequest.getEmail())){
             return new ResponseEntity<>(MessageResponse.builder().message("EMAIL_NOT_FOUND").build(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(MessageResponse.builder().message("SUCCESS").build(), HttpStatus.OK);
-
     }
 
     public ResponseEntity<?> resetPassword(PasswordRequest passwordRequest) {

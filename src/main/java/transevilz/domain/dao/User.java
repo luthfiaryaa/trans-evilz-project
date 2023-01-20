@@ -86,8 +86,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Transaction> transaction;
+//    @OneToMany(mappedBy = "user")
+//    private Set<Transaction> transaction;
 
     public User(String email, String doc_type, String doc_number, String firstname, String lastname, String birth_place,
                 LocalDateTime birth_date, String address, String phone_number, String password, String sex) {

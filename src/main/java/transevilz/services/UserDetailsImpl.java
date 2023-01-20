@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import transevilz.domain.dao.User;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +22,6 @@ public class UserDetailsImpl implements UserDetails {
     private String email;
     @JsonIgnore
     private String password;
-    //private String citizenship;
     private String doc_type;
     private String doc_number;
     private String firstname;
@@ -89,10 +87,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getMpin() {
         return mpin;
     }
-
-//    public String getCitizenship() {
-//        return citizenship;
-//    }
 
     public String getDoc_type() {
         return doc_type;

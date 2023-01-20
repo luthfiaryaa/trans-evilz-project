@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import transevilz.domain.dao.Bank;
-import transevilz.domain.dao.Transaction;
 import transevilz.domain.dao.User;
 import transevilz.domain.dto.LoginRequest;
 import transevilz.domain.dto.SignupRequest;
@@ -58,11 +56,6 @@ public class BackOfficeController {
     @GetMapping("/users")
     public ResponseEntity<Object> getUser() {
         return backOfficeService.getUser();
-    }
-
-    @GetMapping("/usersss")
-    public ResponseEntity<Object> getBank() {
-        return transactionService.getBank();
     }
 
     @GetMapping("/users/{id}")
